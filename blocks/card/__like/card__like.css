@@ -1,0 +1,10 @@
+.card__like {
+    text-decoration: none;
+    width: 22px;
+    height: 22px;
+    background: transparent;
+    border: 0 !important;  
+    background-image: url(../../../images/like.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}

@@ -1,0 +1,30 @@
+.popup__close { 
+    text-decoration: none;
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    top: calc(50% - 185px);
+    left: calc(50% + 235px);
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    border: 0 !important;  
+    background-image: url(../../../images/Close.png);
+
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.popup__close:hover { 
+    opacity: 0.6;
+}
+
+@media screen  and (max-width:582px) and (min-width: 320px) {
+    .popup__close { 
+        
+        top: calc(50% - 195px);
+        left: calc(50% + 125px);
+        width: 26px;
+        height: 26px;
+    }
+}
