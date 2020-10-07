@@ -3,8 +3,13 @@
     width: 22px;
     height: 22px;
     background: transparent;
-    border: 0 !important;  
+    border: 0;  
     background-image: url(../../../images/like.svg);
     background-repeat: no-repeat;
     background-position: center;
+}
+
+
+.card__like:hover {
+    opacity: 0.6;
 }

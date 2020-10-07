@@ -1,6 +1,5 @@
 .popup__form {
     width: 430px;
-    height: 330px;
     position: fixed;
 
     z-index: 5;

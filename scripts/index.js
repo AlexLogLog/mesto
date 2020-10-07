@@ -10,24 +10,22 @@ let formElement = document.querySelector('.popup__form');
 let popup_name = document.querySelector('.popup__input_info_name'); 
 let popup_about = document.querySelector('.popup__input_info_about');
 
-function formSubmitHandler(evt) {
-    evt.preventDefault();
-    name.textContent = popup_name.value;
-    about.textContent = popup_about.value;
-    popup.classList.remove('popup_opened');
-}
-
 function openPopup() {
-    popup.classList.add('popup_opened');
     popup_name.value  = name.textContent;
     popup_about.value  = about.textContent;
+    popup.classList.add('popup_opened');
 }
 
 function closePopup() {
     popup.classList.remove('popup_opened');
 }
 
-
+function formSubmitHandler(evt) {
+    evt.preventDefault();
+    name.textContent = popup_name.value;
+    about.textContent = popup_about.value;
+    closePopup();
+}
 
 profile.addEventListener('click', openPopup); 
 popup_close.addEventListener('click', closePopup); 
