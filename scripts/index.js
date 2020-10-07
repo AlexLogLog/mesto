@@ -7,8 +7,8 @@ let about = document.querySelector('.profile__about');
 
 let formElement = document.querySelector('.popup__form');
 
-let popup_name = document.querySelector('.popup__name'); 
-let popup_about = document.querySelector('.popup__about');
+let popup_name = document.querySelector('.popup__input_info_name'); 
+let popup_about = document.querySelector('.popup__input_info_about');
 
 function formSubmitHandler(evt) {
     evt.preventDefault();
@@ -17,19 +17,19 @@ function formSubmitHandler(evt) {
     popup.classList.remove('popup_opened');
 }
 
-function OpenPopup() {
+function openPopup() {
     popup.classList.add('popup_opened');
     popup_name.value  = name.textContent;
     popup_about.value  = about.textContent;
 }
 
-function ClosePopup() {
+function closePopup() {
     popup.classList.remove('popup_opened');
 }
 
 
 
-profile.addEventListener('click', OpenPopup); 
-popup_close.addEventListener('click', ClosePopup); 
+profile.addEventListener('click', openPopup); 
+popup_close.addEventListener('click', closePopup); 
 formElement.addEventListener('submit', formSubmitHandler);
 
