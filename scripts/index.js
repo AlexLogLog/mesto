@@ -14,7 +14,7 @@ const popupAbout = popupUser.querySelector('.popup__input_info_about-profile');
 function openPopupUser() {
     popupName.value  = name.textContent;
     popupAbout.value  = about.textContent;
-    popupUser.classList.add('popup_opened');
+    openPopup(popupUser);
     
 }
 
@@ -67,8 +67,7 @@ const popupPhoto = document.querySelector('.popup_type_photo');
 
 const conte = document.querySelector('.card');
 const cardTemplate = document.querySelector('.card__id').content;
-let place = [];
-function addCard(name, link) {
+function createCard(name, link) {
     
 
     const cardElement = cardTemplate.cloneNode(true);
@@ -93,19 +92,14 @@ function addCard(name, link) {
         popupPhoto.querySelector('.popup__photo-name').textContent = name;
         
     });
-    
-place = cardElement;
 
-    return place;
+    return cardElement;
 }
 
-function newCard() {
-    conte.prepend(cardElement);
-}
+
 
 initialCards.forEach(function (el) {
-    addCard(el.name, el.link);
-    conte.append(place);
+    conte.append(createCard(el.name, el.link));
 });
 
 const card = document.querySelector('.profile__button-new');
@@ -136,8 +130,8 @@ formElementCard.addEventListener('submit', function (evt) {
     const name = popupCard.querySelector('.popup__input_info_name-photo').value;
     const link = popupCard.querySelector('.popup__input_info_link-photo').value;
   
-    addCard(name, link);
-    conte.prepend(place);
+    
+    conte.prepend(createCard(name, link));
     closePopupCard();
     
   });
