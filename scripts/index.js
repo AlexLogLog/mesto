@@ -100,7 +100,7 @@ function handleEscClick(e) {
 // при добавлении обработчика в openPopup type.addEventListener('click', handleEscClick) 
 // и его удалении в closePopup popupType.addEventListener('click', handleEscClick) 
 // У меня так ничего не работает :(. 
-// Можете написать почему именно обработчик click, если мы отслеживаем нажатие.
+// Можете написать почему именно обработчик click, если мы отслеживаем нажатие клавиши.
 // И чуть подробнее про реализацию, что-то сложно понимать этот момент. И как работать должно вообще.
 
 addEventListener('keydown', handleEscClick);
