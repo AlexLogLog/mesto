@@ -1,20 +1,19 @@
-.popup__close { 
-    padding: 0;
+.card__basket {
+    position: absolute;
+    top: 18px;
+    right: 15px;
     text-decoration: none;
-    width: 40px;
-    height: 40px;
+    width: 18px;
+    height: 20px;
     background: transparent;
     border: 0;  
-    background-image: url(../../../images/Close.svg);
-
+    background-image: url(../../../images/basket.svg);
     background-repeat: no-repeat;
     background-position: center;
-    position: absolute;
-    top: -40px;
-    right: -40px;
 }
 
-.popup__close:hover { 
+
+.card__basket:hover {
     opacity: 0.6;
     cursor: url(../../../images/Layer.svg), pointer;
 }
