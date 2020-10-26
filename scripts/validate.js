@@ -29,19 +29,16 @@ const hasInvalidInput = (inputList) => {
   })
 };
 
-const startButton = () => {
+const startButton = (button) => {
   
-  cardInputName.value = '';
-  cardInputLink.value = '';
-  buttonSaveCard.classList.add('popup__save_inactive');
-  buttonSaveCard.disabled = true;
+  button.classList.add('popup__save_inactive');
+  button.disabled = true;
 }
 
 const toggleButtonState = (parameters, inputList, buttonElement) => {
 
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(parameters.inactiveButtonClass);
-    buttonElement.disabled = true;
+    startButton(buttonElement);
     
   } else {
     buttonElement.classList.remove(parameters.inactiveButtonClass);

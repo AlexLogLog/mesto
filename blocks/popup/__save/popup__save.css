@@ -19,7 +19,7 @@
 
 .popup__save:hover {
     background: rgba(0, 0, 0, 0.8);
-    cursor: url(../../../images/Layer.svg) 10 10, pointer;
+    cursor: pointer;
 }
 
 .popup__save:disabled {

@@ -13,7 +13,7 @@
 
 .profile__button-new:hover {
     opacity: 0.6;
-    cursor: url(../../../images/Layer.svg) 10 10, pointer;
+    cursor: pointer;
 }
 
 @media screen  and (max-width:882px) and (min-width: 320px) {

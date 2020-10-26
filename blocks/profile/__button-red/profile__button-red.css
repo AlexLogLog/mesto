@@ -13,7 +13,7 @@
 
 .profile__button-red:hover {
     opacity: 0.6;
-    cursor: url(../../../images/Layer.svg) 10 10, pointer;
+    cursor: pointer;
 }
 
 

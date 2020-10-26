@@ -30,11 +30,13 @@ function openPopupUser() {
     popupName.value = name.textContent;
     popupAbout.value = about.textContent;
     openPopup(popupUser);
+    document.addEventListener('keydown', handleEscClick);
 
 }
 
 function closePopup(popupType) {
     popupType.classList.remove('popup_opened');
+    document.removeEventListener('keydown', handleEscClick);
 }
 
 function formSubmitHandler(evt) {
@@ -92,26 +94,21 @@ initialCards.forEach(function (el) {
 
 function handleEscClick(e) {
     if (e.keyCode === 27) {
-        document.querySelector('.popup_opened').classList.remove('popup_opened');
+        const thisPopup =  document.querySelector('.popup_opened');
+        closePopup(thisPopup);
     }
 }
 
-
-// при добавлении обработчика в openPopup type.addEventListener('click', handleEscClick) 
-// и его удалении в closePopup popupType.addEventListener('click', handleEscClick) 
-// У меня так ничего не работает :(. 
-// Можете написать почему именно обработчик click, если мы отслеживаем нажатие клавиши.
-// И чуть подробнее про реализацию, что-то сложно понимать этот момент. И как работать должно вообще.
-
-addEventListener('keydown', handleEscClick);
-
 function openPopup(type) {
     type.classList.add('popup_opened');
+    document.addEventListener('keydown', handleEscClick);
 }
 
 function closePopupCard() {
     closePopup(popupCard);
-    startButton();
+    cardInputName.value = '';
+    cardInputLink.value = '';
+    startButton(buttonSaveCard);
 }
 
 profileOpenButton.addEventListener('click', function () {

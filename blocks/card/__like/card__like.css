@@ -12,7 +12,7 @@
 
 .card__like:hover {
     opacity: 0.6;
-    cursor: url(../../../images/Layer.svg) 10 10, pointer;
+    cursor: pointer;
 }
 
 .card__like_active {
