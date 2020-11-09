@@ -10,6 +10,6 @@
 ### Сайт сделан с помощью: 
 * HTML
 * CSS
-* JS
+* JS (созданы для класса Card & FormValidator)
 
 ## Сайт расположен на странице (https://alexloglog.github.io/mesto/)
