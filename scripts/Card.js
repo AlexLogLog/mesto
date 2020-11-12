@@ -51,7 +51,10 @@ export class Card {
         photoName.textContent = this._cardName;
         openPopup(popupPhoto);    
       });
-    closePhoto.addEventListener('click', closePopup(popupPhoto));
+    closePhoto.addEventListener('click', () => {
+      closePopup(popupPhoto);
+ `` }
+  );
   }
 }
 
