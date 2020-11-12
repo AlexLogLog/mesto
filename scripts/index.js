@@ -78,7 +78,7 @@ initialCards.forEach((item) => {
   });
 
 
-export function handleEscClick(e) {
+function handleEscClick(e) {
     if (e.keyCode === UPPER_CASE) {
         const thisPopup =  document.querySelector('.popup_opened');
         closePopup(thisPopup);
