@@ -1,4 +1,4 @@
-import {popupPhoto, closePhoto, photoImg, photoName, handleEscClick} from './index.js';
+import {openPopup, closePopup, popupPhoto, closePhoto, photoImg, photoName, handleEscClick} from './index.js';
 
 export class Card {
     constructor(name, link, cardSelector) {
@@ -19,8 +19,9 @@ export class Card {
 
   generateCard() {
     this._element = this._getTemplate();
-    this._element.querySelector('.card__img').src= this._cardScr;
-    this._element.querySelector('.card__img').alt = this._cardScr;
+    const cardImg = this._element.querySelector('.card__img');
+    cardImg.src= this._cardScr;
+    cardImg.alt = this._cardScr;
     this._element.querySelector('.card__name').textContent = this._cardName;
 
     this._setEventListenersLike();
@@ -43,20 +44,14 @@ export class Card {
     });
   }
 
-
-  // метод открытия и закрытия popup. Решила переписать в класс. Как лучше: в обычном js или все-таки как здесь?
   _setEventListenersPopup() {  
-    this._element.querySelector('.card__img').addEventListener('click', (evt) => {
+    this._element.querySelector('.card__img').addEventListener('click', () => {
         
         photoImg.src = this._cardScr;
         photoName.textContent = this._cardName;
-        popupPhoto.classList.add('popup_opened');
-        document.addEventListener('keydown', handleEscClick);
-    });
-    closePhoto.addEventListener('click', (evt) => {
-        popupPhoto.classList.remove('popup_opened');
-        document.removeEventListener('keydown', handleEscClick);
-    });
+        openPopup(popupPhoto);    
+      });
+    closePhoto.addEventListener('click', closePopup(popupPhoto));
   }
 }
 

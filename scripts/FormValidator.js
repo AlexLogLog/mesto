@@ -1,15 +1,15 @@
 export class FormValidator {
-    constructor(obg, formValid) {
+    constructor(obg, formElement) {
         this._formSelector = obg.formSelector;
         this._inputSelector = obg.inputSelector;
         this._submitButtonSelector = obg.submitButtonSelector;
         this._inactiveButtonClass = obg.inactiveButtonClass;
         this._inputErrorClass = obg.inputErrorClass;
         this._errorClass = obg.errorClass;
-        this._formValid = formValid;
+        this._formElement = formElement;
     }
 
-     _showInputError(formElement, element, errorMessage) {
+     _showInputError(element, errorMessage) {
         const errorElement = document.querySelector(`#${element.id}-error`);
         element.classList.add(this._inputErrorClass);
         errorElement.textContent = errorMessage;
@@ -17,7 +17,7 @@ export class FormValidator {
       };
       
       
-     _hideInputError(formElement, element) {
+     _hideInputError(element) {
         const errorElement = document.querySelector(`#${element.id}-error`);
         element.classList.remove(this._inputErrorClass);
         errorElement.classList.remove(this._errorClass);
@@ -25,11 +25,11 @@ export class FormValidator {
       };
       
       
-     _isValid(formElement, inputElement) {
+     _isValid(inputElement) {
         if (!inputElement.validity.valid) {
-          this._showInputError(formElement, inputElement, inputElement.validationMessage);
+          this._showInputError(inputElement, inputElement.validationMessage);
         } else {
-          this._hideInputError(formElement, inputElement);
+          this._hideInputError(inputElement);
         }
       };
       
@@ -63,7 +63,7 @@ export class FormValidator {
         const buttonElement = formElement.querySelector(this._submitButtonSelector);
         inputList.forEach((inputElement) => {
           inputElement.addEventListener('input', () => {
-            this._isValid(formElement, inputElement);
+            this._isValid(inputElement);
             this._toggleButtonState(inputList, buttonElement);
           });
         });
@@ -71,13 +71,11 @@ export class FormValidator {
       
       
       enableValidation () {
-        const formList = Array.from(document.querySelectorAll(this._formSelector));
-        formList.forEach((formElement) => {
-          formElement.addEventListener('submit', (evt) => {
+        const formList = document.querySelector(this._formElement);
+        formList.addEventListener('submit', (evt) => {
             evt.preventDefault();
           });
-          this._setEventListeners(formElement);
-        });
+        this._setEventListeners(formList);
       };
 
 }
