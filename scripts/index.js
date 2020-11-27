@@ -1,35 +1,41 @@
 import { initialCards } from './initialCards.js';
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
+import { Section } from './Section.js';
+import { Popup } from './Popup.js';
+import { PopupWithForm } from './PopupWithForm.js';
+import { PopupWithImage } from './PopupWithImage.js';
+import { UserInfo } from './UserInfo.js';
 
 const profile = document.querySelector('.profile__button-red');
-const name = document.querySelector('.profile__name');
-const about = document.querySelector('.profile__about');
+
+const infoUser = new Object();
+infoUser.name = document.querySelector('.profile__name');
+infoUser.about = document.querySelector('.profile__about');
 
 const popupUser = document.querySelector('.popup_type_user');
-const popupUserClose = popupUser.querySelector('.popup__close');
 const formElementUser = popupUser.querySelector('.popup__form_type_profile');
-const popupName = popupUser.querySelector('.popup__input_info_name-profile');
-const popupAbout = popupUser.querySelector('.popup__input_info_about-profile');
+export const popupName = popupUser.querySelector('.popup__input_info_name-profile');
+export const popupAbout = popupUser.querySelector('.popup__input_info_about-profile');
 
-const buttonSaveCard = document.querySelector('.popup__save_type_card');
+export const buttonSaveCard = document.querySelector('.popup__save_type_card');
 
 const container = document.querySelector('.card');
 
 const profileOpenButton = document.querySelector('.profile__button-new');
 
 const popupCard = document.querySelector('.popup_type_card');
-const popupCloseCard = popupCard.querySelector('.popup__close');
-const cardInputName = popupCard.querySelector('.popup__input_info_name-photo');
-const cardInputLink = popupCard.querySelector('.popup__input_info_link-photo');
-const formElementCard = popupCard.querySelector('.popup__form');
+export const cardInputName = popupCard.querySelector('.popup__input_info_name-photo');
+export const cardInputLink = popupCard.querySelector('.popup__input_info_link-photo');
+export const formElementCard = popupCard.querySelector('.popup__form');
 
 export const popupPhoto = document.querySelector('.popup_type_photo');
 export const closePhoto = document.querySelector('.popup__close_type_photo');
 export const photoImg = popupPhoto.querySelector('.popup__photo-image');
 export const photoName = popupPhoto.querySelector('.popup__photo-name');
 
-const UPPER_CASE = 27;
+export const UPPER_CASE = 27;
+
 
 function popupValid(item) {
     const errorPopup = new FormValidator({
@@ -45,57 +51,32 @@ function popupValid(item) {
 };
 
 function openPopupUser() {
-    popupName.value = name.textContent;
-    popupAbout.value = about.textContent;
+    const profileNameAndAbout = new UserInfo(infoUser);
+    profileNameAndAbout.getUserInfo();
     openPopup(popupUser);
     popupValid('.popup_type_user');
 
 }
 
-export function closePopup(popupType) {
-    popupType.classList.remove('popup_opened');
-    document.removeEventListener('keydown', handleEscClick);
+function closePopup(popupType) {
+    const closePop = new Popup(popupType);
+    closePop.close();
 }
 
 function formSubmitHandler(evt) {
     evt.preventDefault();
-    name.textContent = popupName.value;
-    about.textContent = popupAbout.value;
+    const profileNameAndAbout = new UserInfo(infoUser);
+    profileNameAndAbout.setUserInfo();
     closePopup(popupUser);
 }
 
 profile.addEventListener('click', openPopupUser);
-popupUserClose.addEventListener('click', function () {
-    closePopup(popupUser);
-});
+
 formElementUser.addEventListener('submit', formSubmitHandler);
 
-
-initialCards.forEach((item) => {
-    const card = new Card(item.name, item.link, '.card__id');
-    const cardElement = card.generateCard();
-    container.append(cardElement);
-  });
-
-
-function handleEscClick(e) {
-    if (e.keyCode === UPPER_CASE) {
-        const thisPopup =  document.querySelector('.popup_opened');
-        closePopup(thisPopup);
-    }
-}
-
-export function openPopup(type) {
-    type.classList.add('popup_opened');
-    document.addEventListener('keydown', handleEscClick);
-}
-
-function closePopupCard() {
-    closePopup(popupCard);
-    cardInputName.value = '';
-    cardInputLink.value = '';
-    buttonSaveCard.classList.add('popup__save_inactive');
-    buttonSaveCard.disabled = true;
+function openPopup(type) {
+    const openPop = new Popup(type);
+    openPop.open();
 }
 
 profileOpenButton.addEventListener('click', function () {
@@ -103,31 +84,32 @@ profileOpenButton.addEventListener('click', function () {
     popupValid('.popup_type_card');
 });
 
-popupCloseCard.addEventListener('click', closePopupCard);
 
-formElementCard.addEventListener('submit', function (evt) {
-
-    evt.preventDefault();
-    const name = cardInputName.value;
-    const link = cardInputLink.value;
-
-    const card = new Card(name, link, '.card__id');
+const inputPopupForm = new PopupWithForm(popupCard, (formInfo) => {
+    const card = new Card(formInfo.name, formInfo.link, '.card__id', (cardImg) => {
+        const openPopupImage = new PopupWithImage(popupPhoto);
+        openPopupImage.open(cardImg);
+    });
     const cardElement = card.generateCard();
     container.prepend(cardElement);
-    closePopupCard();
-
+    inputPopupForm.close();
 });
+inputPopupForm.setEventListeners();
 
 
-function closePopupByClickOverlay(e) {
-    if (e.target.classList.contains("popup")) {   
-      closePopup(e.target);
-    }
-  }
-  
-popupPhoto.addEventListener('click', closePopupByClickOverlay);
-popupUser.addEventListener('click', closePopupByClickOverlay);
-popupCard.addEventListener('click', closePopupByClickOverlay);
+const initList = new Section(
+    {item: initialCards, 
+    renderer: (items) => {
+        const card = new Card(items.name, items.link, '.card__id', (cardImg) => {
+            const openPopupImage = new PopupWithImage(popupPhoto);
+            openPopupImage.open(cardImg);
+    
+        });
+        const cardElement = card.generateCard();
+        initList.setItem(cardElement);
+    }},
+     '.card');
 
+initList.renderItems();
 
 
