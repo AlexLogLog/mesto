@@ -1,18 +1,18 @@
-import {popupName, popupAbout} from './index.js';
-
 export class UserInfo {
     constructor(infoUser) {
         this._infoUser = infoUser;
     }
 
     getUserInfo() {
-        popupName.value = this._infoUser.name.textContent;
-        popupAbout.value = this._infoUser.about.textContent; 
+        return {
+            userName: this._infoUser.name.textContent,
+            userDescription: this._infoUser.about.textContent
+          }
     }
 
-    setUserInfo() {
+    setUserInfo(name, about) {
         
-        this._infoUser.name.textContent =  popupName.value;
-        this._infoUser.about.textContent = popupAbout.value;
+        this._infoUser.name.textContent =  name;
+        this._infoUser.about.textContent = about;
     }
 }

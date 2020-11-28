@@ -1,4 +1,3 @@
-import {buttonSaveCard, formElementCard, cardInputName, cardInputLink} from './index.js';
 import { Popup } from './Popup.js';
 
 export class PopupWithForm extends Popup {
@@ -8,25 +7,21 @@ export class PopupWithForm extends Popup {
     }
 
     _getInputValues() {
-        const formInfo = new Object();
-        formInfo.name = cardInputName.value;
-        formInfo.link = cardInputLink.value;
-        return formInfo;
+        this._inputList = this._selectorPopup.querySelectorAll('.popup__input');
+        this._formValues = {};
+        this._inputList.forEach(input => this._formValues[input.name] = input.value);
+        return this._formValues;
     }
 
     setEventListeners() {
         super.setEventListeners();
-        formElementCard.addEventListener('submit', () => {
+        this._selectorPopup.querySelector('.popup__form').addEventListener('submit', () => {
             this._handleFormSubmit(this._getInputValues());
         });
     }
 
     close() {
         super.close();
-        cardInputName.value = '';
-        cardInputLink.value = '';
-        buttonSaveCard.classList.add('popup__save_inactive');
-        buttonSaveCard.disabled = true;
-        
+        this._selectorPopup.querySelector('.popup__form').reset();
     }
 }

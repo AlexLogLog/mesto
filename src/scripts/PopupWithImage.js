@@ -1,17 +1,19 @@
-import {photoImg, photoName} from './index.js';
 import { Popup } from './Popup.js';
 
 export class PopupWithImage extends Popup {
-    constructor(selectorPopup){
+    constructor(selectorPopup, photoImg, photoName){
         super(selectorPopup);
+        this._photoImg = photoImg;
+        this._photoName = photoName;
     }
-    open(cardImage) {
-        cardImage.addEventListener('click', () => {
-            photoImg.src = cardImage.src;
-            photoName.textContent = cardImage.alt;
-            super.open(); 
-          });
-            
+    open(formNew) {
+        this._photoImg.src = formNew.link;
+        this._photoName.textContent = formNew.name;
+        super.open();             
     };    
+
+    setEventListeners() {
+        super.setEventListeners();
+    }
     
 }

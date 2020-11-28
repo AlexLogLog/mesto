@@ -3,9 +3,13 @@ export class Section {
         this._item = item;
         this._renderer = renderer;
         this._container = document.querySelector(containerSelector);
-    }
-    setItem(element) {
+     }
+
+      setItemList(element) {
         this._container.append(element);
+      }
+      setItemNew(element) {
+        this._container.prepend(element);
       }
     
       clear() {

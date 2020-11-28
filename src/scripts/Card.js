@@ -17,6 +17,10 @@ export class Card {
   }
 
   generateCard() {
+    const infoNew = {
+      name: this._cardName,
+      link: this._cardScr
+    }
     this._element = this._getTemplate();
     const cardImg = this._element.querySelector('.card__img');
     cardImg.src= this._cardScr;
@@ -25,7 +29,11 @@ export class Card {
 
     this._setEventListenersLike();
     this._setEventListenersDelete();
-    this._handleCardClick(cardImg);
+
+    cardImg.addEventListener('click', () => {
+      this._handleCardClick(infoNew);
+    })
+
 
     return this._element;
   }
