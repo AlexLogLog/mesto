@@ -1,13 +1,12 @@
 import './index.css';
 
-import { initialCards } from '../scripts/initialCards.js';
-import { Card } from '../scripts/Card.js';
-import { FormValidator } from '../scripts/FormValidator.js';
-import { Section } from '../scripts/Section.js';
-import { Popup } from '../scripts/Popup.js';
-import { PopupWithForm } from '../scripts/PopupWithForm.js';
-import { PopupWithImage } from '../scripts/PopupWithImage.js';
-import { UserInfo } from '../scripts/UserInfo.js';
+import { initialCards } from '../utils/initialCards.js';
+import { Card } from '../components/Card.js';
+import { FormValidator } from '../components/FormValidator.js';
+import { Section } from '../components/Section.js';
+import { PopupWithForm } from '../components/PopupWithForm.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
+import { UserInfo } from '../components/UserInfo.js';
 
 const profile = document.querySelector('.profile__button-red');
 
@@ -17,7 +16,6 @@ const infoUser = {
 };
 
 const popupUser = document.querySelector('.popup_type_user');
-const formElementUser = popupUser.querySelector('.popup__form_type_profile');
 const popupName = popupUser.querySelector('.popup__input_info_name-profile');
 const popupAbout = popupUser.querySelector('.popup__input_info_about-profile');
 
@@ -46,30 +44,24 @@ validSelector.forEach((item) => {
       errorPopup.enableValidation();
 })
 
-const openPopupProfile = new Popup(popupUser);
+const openPopupProfile = new PopupWithForm(popupUser, (formInfo) => {
+    profileNameAndAbout.setUserInfo(formInfo.profileName, formInfo.about);
+    openPopupProfile.close();
+});
 openPopupProfile.setEventListeners();
-const openPopupCard = new Popup(popupCard);
-openPopupCard.setEventListeners();
 
 const profileNameAndAbout = new UserInfo(infoUser);
 function openPopupUser() {
-    popupName.value = profileNameAndAbout.getUserInfo().userName;
-    popupAbout.value =  profileNameAndAbout.getUserInfo().userDescription; 
+    const user = profileNameAndAbout.getUserInfo();
+    popupName.value = user.userName;
+    popupAbout.value =  user.userDescription; 
     openPopupProfile.open();
 }
-function formSubmitHandler(evt) {
-    evt.preventDefault();
-    profileNameAndAbout.setUserInfo(popupName.value, popupAbout.value);
-    openPopupProfile.close();
-}
-
 
 profile.addEventListener('click', openPopupUser);
 
-formElementUser.addEventListener('submit', formSubmitHandler);
-
 profileOpenButton.addEventListener('click', function () {
-    openPopupCard.open();
+    inputPopupForm.open();
     buttonSaveCard.classList.add('popup__save_inactive');
     buttonSaveCard.disabled = true;
 });
