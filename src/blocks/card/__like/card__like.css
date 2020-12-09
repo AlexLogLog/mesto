@@ -14,8 +14,3 @@
     opacity: 0.6;
     cursor: pointer;
 }
-
-.card__like_active {
-    opacity: 1;
-background: url(https://code.s3.yandex.net/web-code/dom/heart-filled.svg) center no-repeat;
-}
