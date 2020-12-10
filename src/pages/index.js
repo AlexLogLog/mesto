@@ -116,23 +116,14 @@ const api = new Api({
     }
 });
 
-api.getInfoAndAvatar()
+Promise.all([api.getInfoAndAvatar(), api.getCards()]) 
     .then((result) => {
-        id = result._id;
-        profileNameAndAbout.setUserInfo(result.name, result.about);
-        profileNameAndAbout.setUserImg(result.avatar);
-        
-        api.getCards()
-            .then((result) => {
-                copyCard.renderItems(result);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        id = result[0]._id;
+        profileNameAndAbout.setUserInfo(result[0].name, result[0].about);
+        profileNameAndAbout.setUserImg(result[0].avatar);
+        copyCard.renderItems(result[1]);
+
     })
-    .catch((err) => {
-        console.log(err);
-    });
 
 const openProfileAvatar = new PopupWithForm(popupAvatar, (formInfo) => {
     load(true, '.popup__save_type_avatar', 'Сохранение');
