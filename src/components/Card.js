@@ -85,7 +85,6 @@ export class Card {
   _myLike() {
     this._info.likes.forEach((item) => {
       if (item._id === this._id)
-        console.log(this._id);
         this._like();
 
     })

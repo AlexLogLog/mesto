@@ -130,7 +130,6 @@ api.getInfoAndAvatar()
         console.log(err);
     });
 
-console.log(id);
 const openProfileAvatar = new PopupWithForm(popupAvatar, (formInfo) => {
     load(true, '.popup__save_type_avatar');
     api.updateAvatar({ avatar: formInfo.link })
