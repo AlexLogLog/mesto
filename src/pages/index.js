@@ -36,9 +36,10 @@ const popupAvatar = document.querySelector('.popup_type_avatar');
 
 const popupDel = document.querySelector('.popup_type_confirm');
 
-const validSelector = ['.popup_type_user', '.popup_type_card', '.popup_type_avatar'];
+let layout  = null;
+let id  = null;
 
-let layout = null;
+const validSelector = ['.popup_type_user', '.popup_type_card', '.popup_type_avatar'];
 
 validSelector.forEach((item) => {
     const errorPopup = new FormValidator({
@@ -78,7 +79,7 @@ function openPopupUser() {
 
 function createCard(data) {
 
-    const card = new Card(data, '.card__id', {
+    const card = new Card(data, '.card__id', id, {
         handleCardClick: (data) => {
             openPopupImage.open(data);
         },
@@ -121,6 +122,7 @@ const api = new Api({
 
 api.getInfoAndAvatar()
     .then((result) => {
+        id = result._id;
         profileNameAndAbout.setUserInfo(result.name, result.about);
         profileNameAndAbout.setUserImg(result.avatar);
     })
@@ -128,7 +130,7 @@ api.getInfoAndAvatar()
         console.log(err);
     });
 
-
+console.log(id);
 const openProfileAvatar = new PopupWithForm(popupAvatar, (formInfo) => {
     load(true, '.popup__save_type_avatar');
     api.updateAvatar({ avatar: formInfo.link })
@@ -166,9 +168,6 @@ const openPopupProfile = new PopupWithForm(popupUser, (formInfo) => {
 });
 
 openPopupProfile.setEventListeners();
-
-
-
 
 
 profile.addEventListener('click', openPopupUser);
@@ -235,7 +234,6 @@ const popupDelete = new PopupWithSubmit(popupDel, {
                 layout.deleteCard();
             })
             .then(() => {
-                layout = null;
                 popupDelete.close();
             })
             .catch((err) => {

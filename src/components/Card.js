@@ -2,9 +2,10 @@ import { MY_ID } from '../utils/constants.js'
 
 export class Card {
 
-  constructor(info, cardSelector, { handleCardClick, handleDeleteIconClick, handleLikeClick, handleDeleteLikeClick }) {
+  constructor(info, cardSelector, id, { handleCardClick, handleDeleteIconClick, handleLikeClick, handleDeleteLikeClick }) {
     this._info = info;
     this._cardSelector = cardSelector;
+    this._id = id;
     this._handleCardClick = handleCardClick;
     this._handleDeleteIconClick = handleDeleteIconClick;
     this._handleLikeClick = handleLikeClick;
@@ -40,7 +41,7 @@ export class Card {
   }
 
   _deleteIconDelet() {
-    if (this._info.owner._id !== MY_ID) {
+    if (this._info.owner._id !== this._id) {
       this._element.querySelector('.card__basket').remove();
     }
   }
@@ -83,7 +84,8 @@ export class Card {
 
   _myLike() {
     this._info.likes.forEach((item) => {
-      if (item._id === MY_ID)
+      if (item._id === this._id)
+        console.log(this._id);
         this._like();
 
     })
