@@ -65,10 +65,8 @@ export class Card {
   _setEventListenersLikes() {
     this._element.querySelector('.card__like').addEventListener('click', () => {
       if (this._element.querySelector('.card__like').classList.contains('card__like_active')) {
-        this._like();
         this._handleDeleteLikeClick(this._info);
       } else {
-        this._like();
         this._handleLikeClick(this._info);
       }
     });
@@ -78,14 +76,14 @@ export class Card {
     this._element.querySelector('.card__like-number').textContent = info.likes.length;
   }
 
-  _like() {
+  like() {
     this._element.querySelector('.card__like').classList.toggle('card__like_active');
   }
 
   _myLike() {
     this._info.likes.forEach((item) => {
       if (item._id === this._id)
-        this._like();
+        this.like();
 
     })
   }

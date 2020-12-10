@@ -11,7 +11,7 @@ export class Api {
 
   }
 
-  getCard() {
+  getCards() {
     return fetch(`${this._url}/cards`, {
       method: 'GET',
       headers: this._headers

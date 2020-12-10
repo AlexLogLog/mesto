@@ -54,18 +54,12 @@ validSelector.forEach((item) => {
     errorPopup.enableValidation();
 })
 
-function load(load, selector) {
+function load(load, selector, nameButton) {
     if (load) {
         document.querySelector(selector).textContent = 'Coхранение...'
-    } else if (selector === '.popup__save_type_profile') {
-        document.querySelector('.popup__save_type_profile').textContent = 'Сохранить'
-    } else if (selector === '.popup__save_type_card') {
-        document.querySelector('.popup__save_type_card').textContent = 'Создать'
-    } else if (selector === '.popup__save_type_confirm') {
-        document.querySelector('.popup__save_type_confirm').textContent = 'Да'
-    } else if (selector === '.popup__save_type_avatar') {
-        document.querySelector('.popup__save_type_avatar').textContent = 'Сохранение'
-    }
+    } else {
+        document.querySelector(selector).textContent = nameButton;
+    } 
 
 }
 
@@ -92,6 +86,7 @@ function createCard(data) {
         handleLikeClick: (data) => {
             api.countLikeApi(data)
                 .then((data) => {
+                    card.like();
                     card.countLike(data);
                 })
                 .catch((err) => {
@@ -102,6 +97,7 @@ function createCard(data) {
         handleDeleteLikeClick: (data) => {
             api.deleteLike(data)
                 .then((data) => {
+                    card.like();
                     card.countLike(data);
                 })
                 .catch((err) => {
@@ -125,22 +121,30 @@ api.getInfoAndAvatar()
         id = result._id;
         profileNameAndAbout.setUserInfo(result.name, result.about);
         profileNameAndAbout.setUserImg(result.avatar);
+        
+        api.getCards()
+            .then((result) => {
+                copyCard.renderItems(result);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     })
     .catch((err) => {
         console.log(err);
     });
 
 const openProfileAvatar = new PopupWithForm(popupAvatar, (formInfo) => {
-    load(true, '.popup__save_type_avatar');
+    load(true, '.popup__save_type_avatar', 'Сохранение');
     api.updateAvatar({ avatar: formInfo.link })
         .then((result) => {
-            load(false, '.popup__save_type_avatar');
+            openProfileAvatar.close();
+            load(false, '.popup__save_type_avatar', 'Сохранение');
             profileNameAndAbout.setUserImg(result.avatar);
         })
         .catch((err) => {
             console.log(err);
         });
-    openProfileAvatar.close();
 });
 openProfileAvatar.setEventListeners();
 
@@ -150,20 +154,20 @@ iconRedact.addEventListener('click', () => {
 
 
 const openPopupProfile = new PopupWithForm(popupUser, (formInfo) => {
-    load(true, '.popup__save_type_profile');
+    load(true, '.popup__save_type_profile', 'Сохранить');
     api.updateInfo({
         name: formInfo.profileName,
         about: formInfo.about,
     })
         .then((result) => {
-            load(false, '.popup__save_type_profile');
+            openPopupProfile.close();
+            load(false, '.popup__save_type_profile', 'Сохранить');
             profileNameAndAbout.setUserInfo(result.name, result.about);
             profileNameAndAbout.setUserImg(result.avatar);
         })
         .catch((err) => {
             console.log(err);
         });
-    openPopupProfile.close();
 });
 
 openPopupProfile.setEventListeners();
@@ -183,14 +187,6 @@ openPopupImage.setEventListeners();
 
 
 
-api.getCard()
-    .then((result) => {
-        copyCard.renderItems(result);
-    })
-    .catch((err) => {
-        console.log(err);
-    });
-
 
 const copyCard = new Section(
     {
@@ -205,14 +201,14 @@ const copyCard = new Section(
 
 
 const inputPopupForm = new PopupWithForm(popupCard, (formInfo) => {
-    inputPopupForm.close();
-    load(true, '.popup__save_type_card');
+    load(true, '.popup__save_type_card', 'Создать');
     api.newCard({
         name: formInfo.name,
         link: formInfo.link
     })
         .then((items) => {
-            load(false, '.popup__save_type_card');
+            inputPopupForm.close();
+            load(false, '.popup__save_type_card', 'Создать');
             const card = createCard(items);
             const cardElement = card.generateCard();
             copyCard.setItemNew(cardElement);
@@ -226,10 +222,10 @@ inputPopupForm.setEventListeners();
 
 const popupDelete = new PopupWithSubmit(popupDel, {
     handleFormSubmit: (info) => {
-        load(true, '.popup__save_type_confirm');
+        load(true, '.popup__save_type_confirm', 'Да');
         api.deleteCard(info)
             .then(() => {
-                load(false, '.popup__save_type_confirm');
+                load(false, '.popup__save_type_confirm', 'Да');
                 layout.deleteCard();
             })
             .then(() => {
